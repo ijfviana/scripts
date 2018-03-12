@@ -189,11 +189,26 @@ echo "#### ssl $cname $servn
 SSLEngine on
 SSLCertificateFile /etc/pki/tls/certs/$cname_$servn.crt
 SSLCertificateKeyFile /etc/pki/tls/private/$cname_$servn.key
+SSLCACertificateFile  /etc/pki/tls/certs/ca-bundle.crt
+Header always set Strict-Transport-Security "max-age=63072000; includeSubdomains;"
+Header always set X-Frame-Options DENY
+#SSLCompression off
+SSLProtocol All -SSLv2 -SSLv3
+SSLCipherSuite EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH
+#SSLCipherSuite EECDH+ECDSA+AESGCM:EECDH+aRSA+AESGCM:ECDH+AES256:DH+AES256:EECDH+ECDSA+SHA384:EECDH+ECDSA+SHA256:EECDH+aRSA+SHA384:EECDH+aRSA+SHA256:EECDH:EDH+aRSA:!RC4:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!SRP:!DSS;
+
 ServerName $servn
 ServerAlias $alias
 DocumentRoot $dir$cname_$servn/html
 ErrorLog logs/$cname_$servn/ssl.error_log
 CustomLog logs/$cname_$servn/ssl.access_log combined
+
+#<Location /server-status>
+#    SetHandler server-status
+#    Order deny,allow
+#    Deny from all
+#    Allow from localhost
+#</Location>
 
 <Directory $dir$cname_$servn>
 Options Indexes FollowSymLinks MultiViews
