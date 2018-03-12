@@ -147,10 +147,15 @@ CustomLog logs/$cname_$servn/access_log combined
 
 <Directory $dir$cname_$servn>
 Options Indexes FollowSymLinks MultiViews
+ServerTokens Prod 
+ServerSignature Off
 AllowOverride All
 Order allow,deny
 Allow from all
 #Require all granted
+# RewriteEngine On
+# RewriteCond %{HTTPS} !on
+# RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
 </Directory>
 </VirtualHost>" > /etc/httpd/conf.d/$cname_$servn.conf
 
@@ -192,6 +197,8 @@ CustomLog logs/$cname_$servn/ssl.access_log combined
 
 <Directory $dir$cname_$servn>
 Options Indexes FollowSymLinks MultiViews
+ServerTokens Prod 
+ServerSignature Off
 AllowOverride All
 Order allow,deny
 Allow from all
