@@ -154,6 +154,13 @@ Order allow,deny
 Allow from all
 #Require all granted
 # RewriteEngine On
+# RewriteCond %{REMOTE_ADDR} !^123\.456\.789\.000
+# RewriteCond %{DOCUMENT_ROOT}/maintenance.html -f
+# RewriteCond %{DOCUMENT_ROOT}/maintenance.enable -f
+# RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+# RewriteRule ^.*$ /maintenance.html [R=503,L]
+# ErrorDocument 503 /maintenance.html
+# Header Set Cache-Control "max-age=0, no-store"
 # RewriteCond %{HTTPS} !on
 # RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
 </Directory>
@@ -209,6 +216,15 @@ CustomLog logs/$cname_$servn/ssl.access_log combined
 #    Deny from all
 #    Allow from localhost
 #</Location>
+
+# RewriteEngine On
+# RewriteCond %{REMOTE_ADDR} !^123\.456\.789\.000
+# RewriteCond %{DOCUMENT_ROOT}/maintenance.html -f
+# RewriteCond %{DOCUMENT_ROOT}/maintenance.enable -f
+# RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+# RewriteRule ^.*$ /maintenance.html [R=503,L]
+# ErrorDocument 503 /maintenance.html
+# Header Set Cache-Control "max-age=0, no-store"
 
 <Directory $dir$cname_$servn>
 Options Indexes FollowSymLinks MultiViews
