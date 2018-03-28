@@ -147,8 +147,8 @@ CustomLog logs/$cname_$servn/access_log combined
 
 <Directory $dir$cname_$servn>
 Options Indexes FollowSymLinks MultiViews
-ServerTokens Prod 
-ServerSignature Off
+#ServerTokens Prod 
+#ServerSignature Off
 AllowOverride All
 Order allow,deny
 Allow from all
@@ -316,9 +316,11 @@ if [[ "${q}" == "yes" ]] || [[ "${q}" == "y" ]]; then
 	# Cron
 	# 
 
-	mkdir -p $JAIL_ROOT/etc/cron.frequently $JAIL_ROOT/etc/cron.hourly $JAIL_ROOT/etc/cron.daily $JAIL_ROOT/etc/cron.monthly $JAIL_ROOT/etc/cron.yearly
+	mkdir -p $JAIL_ROOT/etc/cron.frequently $JAIL_ROOT/etc/cron.hourly $JAIL_ROOT/etc/cron.daily  $JAIL_ROOT/etc/cron.weekly  $JAIL_ROOT/etc/cron.monthly $JAIL_ROOT/etc/cron.yearly
 	chown  root:$cname_$servn $JAIL_ROOT/etc/cron.*
 	chmod 0770 $JAIL_ROOT/etc/cron.*
+	jk_cp -j  $JAIL_ROOT /bin/basename
+	jk_cp -j  $JAIL_ROOT /bin/logger
 echo "
 # Run cron: [daily]
 #!/bin/bash
